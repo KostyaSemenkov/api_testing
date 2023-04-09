@@ -6,6 +6,7 @@ from api.client import Client
 class Api(Client):
     USERS = '/users'
     BASE_URL = 'https://reqres.in/api'
+    REGISTER = '/register'
 
     def list_users(self):
         # method: get
@@ -28,7 +29,7 @@ class Api(Client):
         url = self.BASE_URL + self.USERS + '/2'
         return self.get(url)
 
-    def create(self, name, job): # ошибка
+    def create(self, name, job):
         url = self.BASE_URL + self.USERS
         payload = json.dumps({'name': F'{name}', 'job': F'{job}'})
         headers = {'Content-Type': 'application/json'}
@@ -40,6 +41,14 @@ class Api(Client):
         # status 204
         url = self.BASE_URL + self.USERS + F'/{id}'
         return self.delete(url)
+
+    def registration(self, email, password):
+        url = self.BASE_URL + self.REGISTER
+        payload = json.dumps({'email': F'{email}', 'password': F'{password}'})
+        headers = {'Content-Type': 'application/json'}
+        return self.post(url, headers, payload)
+
+
 
 
 
