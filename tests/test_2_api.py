@@ -1,11 +1,12 @@
 from api.questions_api import api
 from http import HTTPStatus
 from utils.assertions import Assert
+import re
 
 
 def test_list_users():
     res = api.list_users()
-
+    assert res.headers['Cache-Control'] == 'max-age=14400'
     assert res.status_code == HTTPStatus.OK
     Assert.validate_schema(res.json())
 
@@ -24,6 +25,7 @@ def test_single_user():
     assert res.status_code == HTTPStatus.OK
     Assert.validate_schema(res_body)
     assert res_body['data']['first_name'] == 'Janet'
+    assert re.fullmatch(r'\w[a-z]{5}', res_body['data']['last_name'])
     example = {
         "data": {
             "id": 2,
@@ -37,4 +39,5 @@ def test_single_user():
             "text": "To keep ReqRes free, contributions towards server costs are appreciated!"}
 
         }
+
     assert example == res_body

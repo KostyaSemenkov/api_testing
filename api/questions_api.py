@@ -29,9 +29,9 @@ class Api(Client):
         url = self.BASE_URL + self.USERS + '/2'
         return self.get(url)
 
-    def create(self, name, job):
+    def create(self, name, job, id):
         url = self.BASE_URL + self.USERS
-        payload = json.dumps({'name': F'{name}', 'job': F'{job}'})
+        payload = json.dumps({'name': F'{name}', 'job': F'{job}', 'id': F'{id}'})
         headers = {'Content-Type': 'application/json'}
         return self.post(url, headers, payload)
 
